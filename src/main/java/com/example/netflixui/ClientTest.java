@@ -18,7 +18,7 @@ public class ClientTest implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         //create a user
-        User newUser = new User("Sharon", 345689, UserType.user);
+        User newUser = new User("Trevour", 879, UserType.user);
         newUser = feignRestClient.createUser(newUser);
         System.out.println("New user: " + newUser);
 
@@ -41,7 +41,7 @@ public class ClientTest implements CommandLineRunner {
 //        System.out.println("Deleted User" + deletedUser);
 
         //create a category
-        Category newcategory = new Category("Horror");
+        Category newcategory = new Category("Anime");
         newcategory = feignRestClient.createCategory(newcategory);
         System.out.println("New Category: " + newcategory);
 
@@ -64,12 +64,12 @@ public class ClientTest implements CommandLineRunner {
 
         //create a movie
         Category category1 = feignRestClient.findCategoryById((long)1);
-        Category category2 = feignRestClient.findCategoryById((long)6);
+        Category category2 = feignRestClient.findCategoryById(newcategory.getId());
         List<Category> findCategories = new ArrayList<Category>();
         findCategories.add(category1);
         findCategories.add(category2);
-        Movie newMovie = new Movie("The Rambo", 1990, findCategories);
-        newMovie = feignRestClient.createMovie((long)3, newMovie);
+        Movie newMovie = new Movie("XIN Jung", 2017, findCategories);
+        newMovie = feignRestClient.createMovie(newUser.getId(), newMovie);
         System.out.println("New Movie: " + newMovie);
 
         //get movies by category id and type
@@ -96,5 +96,13 @@ public class ClientTest implements CommandLineRunner {
         //delete a movie
 //        String deleteMovie = feignRestClient.deleteMovie((long)8,(long)5);
 //        System.out.println("Movie " + deleteMovie + " deleted successfully");
+
+        //get all suggested unverified movies
+        List<Movie> suggestedMovies = feignRestClient.newMovies();
+        System.out.println("Suggested Unverified Movies: " + suggestedMovies);
+
+        //admin verifies movies
+        Movie verifyMovie = feignRestClient.verifyMovie(newMovie.getId(), (long)1);
+        System.out.println("Verified Movie: " + verifyMovie);
     }
 }

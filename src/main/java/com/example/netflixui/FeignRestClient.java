@@ -74,4 +74,12 @@ public interface FeignRestClient {
     //delete movie
     @RequestMapping(method = RequestMethod.DELETE, value = "users/{userid}/movie/{id}")
     String deleteMovie(@PathVariable(value = "id") Long id, @PathVariable(value = "userid") Long userid);
+
+    //get all suggested unverified movies
+    @RequestMapping(method = RequestMethod.GET, value = "movies/new")
+    List<Movie> newMovies();
+
+    //admin verifies movie
+    @RequestMapping(method = RequestMethod.POST, value = "users/{userid}/verify/{id}")
+    Movie verifyMovie(@PathVariable(value = "id") Long id, @PathVariable(value = "userid") Long userid);
 }
